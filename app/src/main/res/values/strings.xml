@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Messenger</string>
+    <string name="messenger">Messenger</string>
+    <string name="your_email">Your email:</string>
+    <string name="password">Password:</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
+    <string name="registration">Registration</string>
+    <string name="enter_name">Enter name:</string>
+    <string name="enter_last_name">Enter last name:</string>
+    <string name="how_old_are_you">How old are you?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="reset_password">Reset password</string>
+    <string name="error_data_empty">Values can\'t be empty!</string>
+    <string name="error_connecting_database">Error connecting to database!</string>
+    <string name="email_sent">Reset link has been successfully sent!</string>
+    <string name="registration_success">Registration success!</string>
+    <string name="registration_error">Registration error!</string>
+    <string name="type_your_message">Type your message:</string>
+</resources>
