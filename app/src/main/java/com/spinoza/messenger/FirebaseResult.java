@@ -15,9 +15,9 @@ public class FirebaseResult {
         ERROR_REGISTRATION_NO_UID
     }
 
-    private Type type;
-    private String text;
-    private FirebaseUser firebaseUser;
+    private final Type type;
+    private final String text;
+    private final FirebaseUser firebaseUser;
 
     public Type getType() {
         return type;

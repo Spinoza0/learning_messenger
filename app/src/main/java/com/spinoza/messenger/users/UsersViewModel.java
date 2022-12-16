@@ -19,12 +19,11 @@ import java.util.List;
 
 public class UsersViewModel extends ViewModel {
 
-    private FirebaseAuth auth;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference usersReference;
+    private final FirebaseAuth auth;
+    private final DatabaseReference usersReference;
 
-    private MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
-    private MutableLiveData<List<User>> users = new MutableLiveData<>();
+    private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
+    private final MutableLiveData<List<User>> users = new MutableLiveData<>();
 
     public LiveData<FirebaseUser> getUser() {
         return user;
@@ -36,17 +35,8 @@ public class UsersViewModel extends ViewModel {
 
     public UsersViewModel() {
         auth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        usersReference = firebaseDatabase.getReference(ConstantStrings.TABLE_USERS);
-
-        if (auth != null) {
-            auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    user.setValue(firebaseAuth.getCurrentUser());
-                }
-            });
-        }
+        usersReference = FirebaseDatabase.getInstance().getReference(ConstantStrings.TABLE_USERS);
+        auth.addAuthStateListener(firebaseAuth -> user.setValue(firebaseAuth.getCurrentUser()));
 
         usersReference.addValueEventListener(new ValueEventListener() {
             @Override

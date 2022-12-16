@@ -5,8 +5,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,21 +18,20 @@ import java.util.List;
 
 public class ChatViewModel extends ViewModel {
 
-    private MutableLiveData<List<Message>> messages = new MutableLiveData<>();
-    private MutableLiveData<User> otherUser = new MutableLiveData<>();
-    private MutableLiveData<Boolean> messageSent = new MutableLiveData<>();
-    private MutableLiveData<String> error = new MutableLiveData<>();
+    private final MutableLiveData<List<Message>> messages = new MutableLiveData<>();
+    private final MutableLiveData<User> otherUser = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> messageSent = new MutableLiveData<>();
+    private final MutableLiveData<String> error = new MutableLiveData<>();
 
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference referenceUsers = firebaseDatabase.getReference(
+    private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private final DatabaseReference referenceUsers = firebaseDatabase.getReference(
             ConstantStrings.TABLE_USERS
     );
-    private DatabaseReference referenceMessages = firebaseDatabase.getReference(
+    private final DatabaseReference referenceMessages = firebaseDatabase.getReference(
             ConstantStrings.TABLE_MESSAGES
     );
 
-    private String currentUserId;
-    private String otherUserId;
+    private final String currentUserId;
 
     public LiveData<List<Message>> getMessages() {
         return messages;
@@ -54,7 +51,6 @@ public class ChatViewModel extends ViewModel {
 
     public ChatViewModel(String currentUserId, String otherUserId) {
         this.currentUserId = currentUserId;
-        this.otherUserId = otherUserId;
         referenceUsers.child(otherUserId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -98,33 +94,13 @@ public class ChatViewModel extends ViewModel {
                 .child(message.getReceiverId())
                 .push()
                 .setValue(message)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        referenceMessages
-                                .child(message.getReceiverId())
-                                .child(message.getSenderId())
-                                .push()
-                                .setValue(message)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        messageSent.setValue(true);
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        error.setValue(e.getMessage());
-                                    }
-                                });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        error.setValue(e.getMessage());
-                    }
-                });
+                .addOnSuccessListener(unused -> referenceMessages
+                        .child(message.getReceiverId())
+                        .child(message.getSenderId())
+                        .push()
+                        .setValue(message)
+                        .addOnSuccessListener(unused1 -> messageSent.setValue(true))
+                        .addOnFailureListener(e -> error.setValue(e.getMessage())))
+                .addOnFailureListener(e -> error.setValue(e.getMessage()));
     }
 }

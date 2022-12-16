@@ -3,14 +3,12 @@ package com.spinoza.messenger.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.spinoza.messenger.FirebaseResult;
@@ -43,75 +41,63 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setOnClickListeners() {
-        textViewRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        textViewRegister.setOnClickListener(view ->
                 startActivity(RegistrationActivity.newIntent(
                         LoginActivity.this,
-                        editTextEMail.getText().toString()));
-            }
-        });
+                        editTextEMail.getText().toString())
+                )
+        );
 
-        textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        textViewForgotPassword.setOnClickListener(view ->
                 startActivity(ResetPasswordActivity.newIntent(
                         LoginActivity.this,
-                        editTextEMail.getText().toString()));
-            }
-        });
+                        editTextEMail.getText().toString())
+                )
+        );
 
-        buttonSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.login(
-                        editTextEMail.getText().toString(),
-                        editTextPassword.getText().toString()
-                );
-            }
-        });
+        buttonSignIn.setOnClickListener(view -> viewModel.login(
+                editTextEMail.getText().toString(),
+                editTextPassword.getText().toString()
+        ));
     }
 
     private void setObservers() {
         viewModel.getLoginResult().observe(this,
-                new Observer<FirebaseResult>() {
-                    @Override
-                    public void onChanged(FirebaseResult loginResult) {
-                        switch (loginResult.getType()) {
-                            case SUCCESS:
-                                viewModel.setLoginResult(
-                                        FirebaseResult.Type.NONE,
-                                        "",
-                                        null
-                                );
-                                startActivity(UsersActivity.newIntent(
-                                                LoginActivity.this,
-                                                loginResult.getFirebaseUser().getUid()
-                                        )
-                                );
-                                finish();
-                                break;
-                            case ERROR_DATA_EMPTY:
-                                Toast.makeText(
-                                        LoginActivity.this,
-                                        R.string.error_data_empty,
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            case ERROR_LOGIN:
-                                Toast.makeText(
-                                        LoginActivity.this,
-                                        loginResult.getText(),
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            case ERROR_DATABASE_CONNECT:
-                                Toast.makeText(
-                                        LoginActivity.this,
-                                        R.string.error_connecting_database,
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                break;
-                        }
+                loginResult -> {
+                    switch (loginResult.getType()) {
+                        case SUCCESS:
+                            viewModel.setLoginResult(
+                                    FirebaseResult.Type.NONE,
+                                    "",
+                                    null
+                            );
+                            startActivity(UsersActivity.newIntent(
+                                            LoginActivity.this,
+                                            loginResult.getFirebaseUser().getUid()
+                                    )
+                            );
+                            finish();
+                            break;
+                        case ERROR_DATA_EMPTY:
+                            Toast.makeText(
+                                    LoginActivity.this,
+                                    R.string.error_data_empty,
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                        case ERROR_LOGIN:
+                            Toast.makeText(
+                                    LoginActivity.this,
+                                    loginResult.getText(),
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                        case ERROR_DATABASE_CONNECT:
+                            Toast.makeText(
+                                    LoginActivity.this,
+                                    R.string.error_connecting_database,
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            break;
                     }
                 });
     }

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.spinoza.messenger.R;
@@ -17,11 +18,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 
     private enum ViewType {
         MY_MESSAGE,
-        OTHER_MESSAGE;
+        OTHER_MESSAGE
     }
 
 
-    private String currentUserId;
+    private final String currentUserId;
     private List<Message> messages = new ArrayList<>();
 
     public MessagesAdapter(String currentUserId) {
@@ -29,40 +30,37 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     }
 
     public void setMessages(List<Message> messages) {
+        MessagesDiffUtilCallback diffUtilCallback =
+                new MessagesDiffUtilCallback(this.messages, messages);
+        DiffUtil.DiffResult productDiffResult = DiffUtil.calculateDiff(diffUtilCallback);
         this.messages = messages;
-        notifyDataSetChanged();
+        productDiffResult.dispatchUpdatesTo(this);
     }
 
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutResId;
-        if (viewType == ViewType.MY_MESSAGE.ordinal()) {
-            layoutResId = R.layout.my_message_item;
-        } else {
-            layoutResId = R.layout.other_message_item;
-        }
         View view = LayoutInflater.from(parent.getContext()).
-                inflate(layoutResId, parent, false);
+                inflate(
+                        (viewType == ViewType.MY_MESSAGE.ordinal()) ?
+                                R.layout.my_message_item :
+                                R.layout.other_message_item,
+                        parent,
+                        false
+                );
         return new MessageViewHolder(view);
     }
 
     @Override
     public int getItemViewType(int position) {
-        Message message = messages.get(position);
-        int result;
-        if (message.getSenderId().equals(currentUserId)) {
-            result = ViewType.MY_MESSAGE.ordinal();
-        } else {
-            result = ViewType.OTHER_MESSAGE.ordinal();
-        }
-        return result;
+        return (messages.get(position).getSenderId().equals(currentUserId)) ?
+                ViewType.MY_MESSAGE.ordinal() :
+                ViewType.OTHER_MESSAGE.ordinal();
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        Message message = messages.get(position);
-        holder.textViewMessage.setText(message.getText());
+        holder.textViewMessage.setText(messages.get(position).getText());
     }
 
     @Override
@@ -71,7 +69,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewMessage;
+        private final TextView textViewMessage;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);

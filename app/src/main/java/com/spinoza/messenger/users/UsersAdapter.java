@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.spinoza.messenger.R;
@@ -25,8 +26,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     }
 
     public void setUsers(List<User> users) {
+        UsersDiffUtilCallback diffUtilCallback =
+                new UsersDiffUtilCallback(this.users, users);
+        DiffUtil.DiffResult productDiffResult = DiffUtil.calculateDiff(diffUtilCallback);
         this.users = users;
-        notifyDataSetChanged();
+        productDiffResult.dispatchUpdatesTo(this);
     }
 
     @NonNull
@@ -49,23 +53,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
                 user.getAge()
         );
         holder.textViewUserInfo.setText(userInfo);
-        int backgroundResId;
-        if (user.isOnline()) {
-            backgroundResId = R.drawable.circle_green;
-        } else {
-            backgroundResId = R.drawable.circle_red;
-        }
         Drawable background = ContextCompat.getDrawable(
                 holder.itemView.getContext(),
-                backgroundResId
+                (user.isOnline()) ? R.drawable.circle_green : R.drawable.circle_red
         );
         holder.viewOnLineStatus.setBackground(background);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (onUserClickListener != null) {
-                    onUserClickListener.OnUserClick(user);
-                }
+        holder.itemView.setOnClickListener(view -> {
+            if (onUserClickListener != null) {
+                onUserClickListener.OnUserClick(user);
             }
         });
     }
@@ -80,8 +75,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     }
 
     static class UserViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewUserInfo;
-        private View viewOnLineStatus;
+        private final TextView textViewUserInfo;
+        private final View viewOnLineStatus;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -1,13 +1,9 @@
 package com.spinoza.messenger.registration;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -18,11 +14,10 @@ import com.spinoza.messenger.users.User;
 
 public class RegistrationViewModel extends ViewModel {
 
-    private FirebaseAuth auth;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference usersReference;
+    private final FirebaseAuth auth;
+    private final DatabaseReference usersReference;
 
-    private MutableLiveData<FirebaseResult> registrationResult = new MutableLiveData<>();
+    private final MutableLiveData<FirebaseResult> registrationResult = new MutableLiveData<>();
 
     public LiveData<FirebaseResult> getRegistrationResult() {
         return registrationResult;
@@ -37,8 +32,7 @@ public class RegistrationViewModel extends ViewModel {
 
     public RegistrationViewModel() {
         auth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        usersReference = firebaseDatabase.getReference(ConstantStrings.TABLE_USERS);
+        usersReference = FirebaseDatabase.getInstance().getReference(ConstantStrings.TABLE_USERS);
     }
 
     public void signUp(User user, String emailFromDialog, String passwordFromDialog) {
@@ -58,36 +52,28 @@ public class RegistrationViewModel extends ViewModel {
             );
         } else {
             auth.createUserWithEmailAndPassword(email, password)
-                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            FirebaseUser firebaseUser = authResult.getUser();
-                            if (firebaseUser != null) {
-                                user.setId(firebaseUser.getUid());
-                                usersReference.child(user.getId()).setValue(user);
-                                setRegistrationResult(
-                                        FirebaseResult.Type.SUCCESS,
-                                        "",
-                                        firebaseUser
-                                );
-                            } else {
-                                setRegistrationResult(
-                                        FirebaseResult.Type.ERROR_REGISTRATION_NO_UID,
-                                        "",
-                                        null
-                                );
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    .addOnSuccessListener(authResult -> {
+                        FirebaseUser firebaseUser = authResult.getUser();
+                        if (firebaseUser != null) {
+                            user.setId(firebaseUser.getUid());
+                            usersReference.child(user.getId()).setValue(user);
                             setRegistrationResult(
-                                    FirebaseResult.Type.ERROR_REGISTRATION,
-                                    e.getMessage(),
+                                    FirebaseResult.Type.SUCCESS,
+                                    "",
+                                    firebaseUser
+                            );
+                        } else {
+                            setRegistrationResult(
+                                    FirebaseResult.Type.ERROR_REGISTRATION_NO_UID,
+                                    "",
                                     null
                             );
                         }
-                    });
+                    }).addOnFailureListener(e -> setRegistrationResult(
+                            FirebaseResult.Type.ERROR_REGISTRATION,
+                            e.getMessage(),
+                            null
+                    ));
         }
     }
 }

@@ -8,22 +8,17 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.spinoza.messenger.ConstantStrings;
 import com.spinoza.messenger.R;
 import com.spinoza.messenger.chat.ChatActivity;
 import com.spinoza.messenger.login.LoginActivity;
 
-import java.util.List;
-
 public class UsersActivity extends AppCompatActivity {
 
     private UsersViewModel viewModel;
-    private RecyclerView recyclerViewUsers;
     private UsersAdapter usersAdapter;
     private String currentUserId;
 
@@ -54,39 +49,26 @@ public class UsersActivity extends AppCompatActivity {
     }
 
     private void setOnClickListeners() {
-        usersAdapter.setOnUserClickListener(new UsersAdapter.OnUserClickListener() {
-            @Override
-            public void OnUserClick(User user) {
-                startActivity(ChatActivity.newIntent(
-                        UsersActivity.this,
-                        currentUserId,
-                        user.getId())
-                );
-            }
-        });
+        usersAdapter.setOnUserClickListener(user -> startActivity(ChatActivity.newIntent(
+                UsersActivity.this,
+                currentUserId,
+                user.getId())
+        ));
     }
 
     void setObservers() {
-        viewModel.getUser().observe(this, new Observer<FirebaseUser>() {
-            @Override
-            public void onChanged(FirebaseUser firebaseUser) {
-                if (firebaseUser == null) {
-                    startActivity(LoginActivity.newIntent(UsersActivity.this));
-                    finish();
-                }
+        viewModel.getUser().observe(this, firebaseUser -> {
+            if (firebaseUser == null) {
+                startActivity(LoginActivity.newIntent(UsersActivity.this));
+                finish();
             }
         });
 
-        viewModel.getUsers().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(List<User> users) {
-                usersAdapter.setUsers(users);
-            }
-        });
+        viewModel.getUsers().observe(this, users -> usersAdapter.setUsers(users));
     }
 
     protected void initViews() {
-        recyclerViewUsers = findViewById(R.id.recyclerViewUsers);
+        RecyclerView recyclerViewUsers = findViewById(R.id.recyclerViewUsers);
         usersAdapter = new UsersAdapter();
         recyclerViewUsers.setAdapter(usersAdapter);
     }

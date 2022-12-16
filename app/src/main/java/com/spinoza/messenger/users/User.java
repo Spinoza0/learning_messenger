@@ -1,5 +1,7 @@
 package com.spinoza.messenger.users;
 
+import androidx.annotation.NonNull;
+
 public class User {
     private String id;
     private String name;
@@ -70,6 +72,7 @@ public class User {
         return result;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "User{" +
