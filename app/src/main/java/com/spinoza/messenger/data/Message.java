@@ -1,4 +1,4 @@
-package com.spinoza.messenger.chat;
+package com.spinoza.messenger.data;
 
 public class Message {
     private String text;
@@ -11,6 +11,7 @@ public class Message {
         this.receiverId = receiverId;
     }
 
+    @SuppressWarnings("unused")
     public Message() {
     }
 

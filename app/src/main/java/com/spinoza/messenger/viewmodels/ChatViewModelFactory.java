@@ -1,4 +1,4 @@
-package com.spinoza.messenger.chat;
+package com.spinoza.messenger.viewmodels;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

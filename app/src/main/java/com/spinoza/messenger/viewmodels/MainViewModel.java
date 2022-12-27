@@ -1,4 +1,4 @@
-package com.spinoza.messenger.login;
+package com.spinoza.messenger.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.spinoza.messenger.FirebaseResult;
+import com.spinoza.messenger.data.FirebaseResult;
 
-public class LoginViewModel extends ViewModel {
+public class MainViewModel extends ViewModel {
 
     private final MutableLiveData<FirebaseResult> loginResult = new MutableLiveData<>();
     private final FirebaseAuth auth;
@@ -23,16 +23,14 @@ public class LoginViewModel extends ViewModel {
     }
 
 
-    public LoginViewModel() {
+    public MainViewModel() {
         auth = FirebaseAuth.getInstance();
-        if (auth != null) {
-            auth.addAuthStateListener(firebaseAuth -> {
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser != null) {
-                    setLoginResult(FirebaseResult.Type.SUCCESS, "", firebaseUser);
-                }
-            });
-        }
+        auth.addAuthStateListener(firebaseAuth -> {
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            if (firebaseUser != null) {
+                setLoginResult(FirebaseResult.Type.SUCCESS, "", firebaseUser);
+            }
+        });
     }
 
     public void login(String emailFromDialog, String passwordFromDialog) {

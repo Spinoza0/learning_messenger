@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#10000099"
-    tools:context=".chat.ChatActivity">
+    tools:context=".activities.ChatActivity">
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -45,6 +45,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:hint="@string/type_your_message"
+        android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
@@ -57,6 +58,7 @@
         android:id="@+id/imageViewSendMessage"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:contentDescription="@string/send_message"
         android:src="@android:drawable/ic_menu_send"
         app:layout_constraintBottom_toBottomOf="@+id/editTextMessage"
         app:layout_constraintEnd_toEndOf="@+id/editTextMessage"

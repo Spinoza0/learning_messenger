@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".registration.RegistrationActivity">
+    tools:context=".activities.RegistrationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:autofillHints="emailAddress"
             android:hint="@string/your_email"
             android:inputType="textEmailAddress"
             android:textSize="20sp" />
@@ -37,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:autofillHints="password"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:textSize="20sp" />
@@ -46,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:autofillHints="name"
             android:hint="@string/enter_name"
             android:inputType="textCapWords"
             android:textSize="20sp" />
@@ -55,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:autofillHints="name"
             android:hint="@string/enter_last_name"
             android:inputType="textCapWords"
             android:textSize="20sp" />
@@ -66,7 +70,8 @@
             android:layout_margin="8dp"
             android:hint="@string/how_old_are_you"
             android:inputType="numberDecimal"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/buttonSignUp"

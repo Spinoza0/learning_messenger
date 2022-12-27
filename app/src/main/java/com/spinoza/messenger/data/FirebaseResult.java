@@ -1,4 +1,4 @@
-package com.spinoza.messenger;
+package com.spinoza.messenger.data;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,5 +36,4 @@ public class FirebaseResult {
         this.text = text;
         this.firebaseUser = firebaseUser;
     }
-
 }

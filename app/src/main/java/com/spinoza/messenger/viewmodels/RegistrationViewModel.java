@@ -1,4 +1,4 @@
-package com.spinoza.messenger.registration;
+package com.spinoza.messenger.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -8,9 +8,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.spinoza.messenger.ConstantStrings;
-import com.spinoza.messenger.FirebaseResult;
-import com.spinoza.messenger.users.User;
+import com.spinoza.messenger.data.ConstantStrings;
+import com.spinoza.messenger.data.FirebaseResult;
+import com.spinoza.messenger.data.User;
 
 public class RegistrationViewModel extends ViewModel {
 

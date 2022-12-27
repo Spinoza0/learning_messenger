@@ -1,6 +1,8 @@
-package com.spinoza.messenger.chat;
+package com.spinoza.messenger.utils;
 
 import androidx.recyclerview.widget.DiffUtil;
+
+import com.spinoza.messenger.data.Message;
 
 import java.util.List;
 

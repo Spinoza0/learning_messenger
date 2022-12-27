@@ -1,4 +1,4 @@
-package com.spinoza.messenger.chat;
+package com.spinoza.messenger.viewmodels;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -10,8 +10,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.spinoza.messenger.ConstantStrings;
-import com.spinoza.messenger.users.User;
+import com.spinoza.messenger.data.ConstantStrings;
+import com.spinoza.messenger.data.Message;
+import com.spinoza.messenger.data.User;
 
 import java.util.ArrayList;
 import java.util.List;

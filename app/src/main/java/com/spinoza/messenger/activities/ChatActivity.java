@@ -1,4 +1,4 @@
-package com.spinoza.messenger.chat;
+package com.spinoza.messenger.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,12 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.spinoza.messenger.ConstantStrings;
 import com.spinoza.messenger.R;
+import com.spinoza.messenger.adapters.MessagesAdapter;
+import com.spinoza.messenger.data.ConstantStrings;
+import com.spinoza.messenger.data.Message;
+import com.spinoza.messenger.viewmodels.ChatViewModel;
+import com.spinoza.messenger.viewmodels.ChatViewModelFactory;
 
 public class ChatActivity extends AppCompatActivity {
 

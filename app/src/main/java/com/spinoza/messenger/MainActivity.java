@@ -1,4 +1,4 @@
-package com.spinoza.messenger.login;
+package com.spinoza.messenger;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,15 +11,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.spinoza.messenger.FirebaseResult;
-import com.spinoza.messenger.R;
-import com.spinoza.messenger.registration.RegistrationActivity;
-import com.spinoza.messenger.resetpassword.ResetPasswordActivity;
-import com.spinoza.messenger.users.UsersActivity;
+import com.spinoza.messenger.activities.RegistrationActivity;
+import com.spinoza.messenger.activities.ResetPasswordActivity;
+import com.spinoza.messenger.activities.UsersActivity;
+import com.spinoza.messenger.data.FirebaseResult;
+import com.spinoza.messenger.viewmodels.MainViewModel;
 
-public class LoginActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    private LoginViewModel viewModel;
+    private MainViewModel viewModel;
 
     private EditText editTextEMail;
     private EditText editTextPassword;
@@ -31,9 +31,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
 
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         initViews();
 
         setOnClickListeners();
@@ -43,14 +43,14 @@ public class LoginActivity extends AppCompatActivity {
     private void setOnClickListeners() {
         textViewRegister.setOnClickListener(view ->
                 startActivity(RegistrationActivity.newIntent(
-                        LoginActivity.this,
+                        MainActivity.this,
                         editTextEMail.getText().toString())
                 )
         );
 
         textViewForgotPassword.setOnClickListener(view ->
                 startActivity(ResetPasswordActivity.newIntent(
-                        LoginActivity.this,
+                        MainActivity.this,
                         editTextEMail.getText().toString())
                 )
         );
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                                     null
                             );
                             startActivity(UsersActivity.newIntent(
-                                            LoginActivity.this,
+                                            MainActivity.this,
                                             loginResult.getFirebaseUser().getUid()
                                     )
                             );
@@ -80,19 +80,19 @@ public class LoginActivity extends AppCompatActivity {
                             break;
                         case ERROR_DATA_EMPTY:
                             Toast.makeText(
-                                    LoginActivity.this,
+                                    MainActivity.this,
                                     R.string.error_data_empty,
                                     Toast.LENGTH_SHORT).show();
                             break;
                         case ERROR_LOGIN:
                             Toast.makeText(
-                                    LoginActivity.this,
+                                    MainActivity.this,
                                     loginResult.getText(),
                                     Toast.LENGTH_SHORT).show();
                             break;
                         case ERROR_DATABASE_CONNECT:
                             Toast.makeText(
-                                    LoginActivity.this,
+                                    MainActivity.this,
                                     R.string.error_connecting_database,
                                     Toast.LENGTH_SHORT).show();
                             break;
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public static Intent newIntent(Context context) {
-        return new Intent(context, LoginActivity.class);
+        return new Intent(context, MainActivity.class);
     }
 
     private void initViews() {

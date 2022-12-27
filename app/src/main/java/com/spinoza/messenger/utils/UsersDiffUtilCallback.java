@@ -1,6 +1,8 @@
-package com.spinoza.messenger.users;
+package com.spinoza.messenger.utils;
 
 import androidx.recyclerview.widget.DiffUtil;
+
+import com.spinoza.messenger.data.User;
 
 import java.util.List;
 

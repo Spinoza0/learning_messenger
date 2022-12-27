@@ -1,4 +1,4 @@
-package com.spinoza.messenger.registration;
+package com.spinoza.messenger.activities;
 
 import static com.spinoza.messenger.R.string.registration_success;
 
@@ -12,11 +12,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.spinoza.messenger.ConstantStrings;
-import com.spinoza.messenger.FirebaseResult;
 import com.spinoza.messenger.R;
-import com.spinoza.messenger.users.User;
-import com.spinoza.messenger.users.UsersActivity;
+import com.spinoza.messenger.data.ConstantStrings;
+import com.spinoza.messenger.data.FirebaseResult;
+import com.spinoza.messenger.data.User;
+import com.spinoza.messenger.viewmodels.RegistrationViewModel;
 
 public class RegistrationActivity extends AppCompatActivity {
 

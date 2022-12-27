@@ -1,4 +1,4 @@
-package com.spinoza.messenger.users;
+package com.spinoza.messenger.adapters;
 
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.spinoza.messenger.R;
+import com.spinoza.messenger.data.User;
+import com.spinoza.messenger.utils.UsersDiffUtilCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +72,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         return users.size();
     }
 
-    interface OnUserClickListener {
+    public interface OnUserClickListener {
         void OnUserClick(User user);
     }
 

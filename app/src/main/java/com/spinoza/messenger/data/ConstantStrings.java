@@ -1,4 +1,4 @@
-package com.spinoza.messenger;
+package com.spinoza.messenger.data;
 
 public class ConstantStrings {
     public static final String TABLE_USERS = "Users";

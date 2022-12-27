@@ -1,4 +1,4 @@
-package com.spinoza.messenger.users;
+package com.spinoza.messenger.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.spinoza.messenger.ConstantStrings;
+import com.spinoza.messenger.MainActivity;
 import com.spinoza.messenger.R;
-import com.spinoza.messenger.chat.ChatActivity;
-import com.spinoza.messenger.login.LoginActivity;
+import com.spinoza.messenger.adapters.UsersAdapter;
+import com.spinoza.messenger.data.ConstantStrings;
+import com.spinoza.messenger.viewmodels.UsersViewModel;
 
 public class UsersActivity extends AppCompatActivity {
 
@@ -59,7 +60,7 @@ public class UsersActivity extends AppCompatActivity {
     void setObservers() {
         viewModel.getUser().observe(this, firebaseUser -> {
             if (firebaseUser == null) {
-                startActivity(LoginActivity.newIntent(UsersActivity.this));
+                startActivity(MainActivity.newIntent(UsersActivity.this));
                 finish();
             }
         });

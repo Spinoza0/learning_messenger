@@ -8,6 +8,6 @@
     android:background="@color/design_default_color_primary"
     android:padding="8dp"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    tools:context=".users.UsersActivity"
+    tools:context=".activities.UsersActivity"
     tools:listitem="@layout/user_item" />
 

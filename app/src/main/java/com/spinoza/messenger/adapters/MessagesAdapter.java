@@ -1,4 +1,4 @@
-package com.spinoza.messenger.chat;
+package com.spinoza.messenger.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.spinoza.messenger.R;
+import com.spinoza.messenger.data.Message;
+import com.spinoza.messenger.utils.MessagesDiffUtilCallback;
 
 import java.util.ArrayList;
 import java.util.List;

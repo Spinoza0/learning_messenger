@@ -1,11 +1,11 @@
-package com.spinoza.messenger.resetpassword;
+package com.spinoza.messenger.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.spinoza.messenger.FirebaseResult;
+import com.spinoza.messenger.data.FirebaseResult;
 
 public class ResetPasswordViewModel extends ViewModel {
     private final FirebaseAuth auth;

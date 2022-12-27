@@ -1,4 +1,4 @@
-package com.spinoza.messenger.resetpassword;
+package com.spinoza.messenger.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.spinoza.messenger.ConstantStrings;
 import com.spinoza.messenger.R;
+import com.spinoza.messenger.data.ConstantStrings;
+import com.spinoza.messenger.viewmodels.ResetPasswordViewModel;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 

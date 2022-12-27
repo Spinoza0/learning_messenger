@@ -1,4 +1,4 @@
-package com.spinoza.messenger.users;
+package com.spinoza.messenger.data;
 
 import androidx.annotation.NonNull;
 
@@ -9,6 +9,7 @@ public class User {
     private int age;
     private boolean online;
 
+    @SuppressWarnings("unused")
     public User() {
     }
 
@@ -30,6 +31,7 @@ public class User {
         this.online = isOnline;
     }
 
+    @SuppressWarnings("unused")
     public User(String id, String name, String lastname, int age, boolean isOnline) {
         this.id = id;
         this.name = trimString(name);
